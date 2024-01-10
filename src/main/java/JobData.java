@@ -5,7 +5,10 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.util.*;
+
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 
 /**
  * Created by LaunchCode
@@ -47,7 +50,15 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        return allJobs;
+        // Bonus Mission 2. Returning a copy of allJobs
+
+        ArrayList<HashMap<String, String>> allJobsCopy = new ArrayList<>();
+        for (HashMap<String, String> jobCopy : allJobs) {
+            allJobsCopy.add(new HashMap<>(jobCopy));
+        }
+
+        return allJobsCopy;
+//      return allJobs;
     }
 
     /**
@@ -76,7 +87,6 @@ public class JobData {
             }
         }
 
-
         return jobs;
     }
 
@@ -99,7 +109,6 @@ public class JobData {
             boolean hasSearchTerm = false; // Does job listing have the values matching search term (value)?
 
             // Checking each value's of key/value pairs of a job listing to see if the values have the search term.
-            //*** Why rowWithAllColumns.containsValue(value) did not work in the if statement? ***
             for (String rowWithAllColumnsValue : rowWithAllColumns.values()) {
                 if (rowWithAllColumnsValue.toLowerCase().contains(value.toLowerCase())) {
                     hasSearchTerm = true;
